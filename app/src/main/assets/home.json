@@ -8,7 +8,7 @@
       "background_image_url": "https://user-images.githubusercontent.com/93589990/158073960-0d11d1c8-3644-4e48-87e9-2b018c3de12d.png",
       "badge": {
         "label": "기획전",
-        "backgroundcolor": "#52514d"
+        "background_color": "#52514d"
       },
       "label": "따스한 겨울\n준비하기",
       "product_detail": {
@@ -24,7 +24,7 @@
       "background_image_url": "https://user-images.githubusercontent.com/93589990/158073964-aa128f96-6a24-49c6-a63a-35e611b77e41.png",
       "badge": {
         "label": "기획전",
-        "backgroundcolor": "#967a6d"
+        "background_color": "#967a6d"
       },
       "label": "나만의\n홈 오피스",
       "product_detail": {
