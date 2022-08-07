@@ -9,7 +9,10 @@ import com.shoppi.app.repository.CategoryRemoteDataSource
 import com.shoppi.app.repository.CategoryRepository
 import com.shoppi.app.repository.HomeAssetDataSource
 import com.shoppi.app.repository.HomeRepository
+import com.shoppi.app.repository.categorydetail.CategoryDetailRemoteDataSource
+import com.shoppi.app.repository.categorydetail.CategoryDetailRepository
 import com.shoppi.app.ui.category.CategoryViewModel
+import com.shoppi.app.ui.categorydetail.CategoryDetailViewModel
 import com.shoppi.app.ui.home.HomeViewModel
 import java.lang.IllegalArgumentException
 
@@ -26,6 +29,12 @@ class ViewModelFactory(private val context: Context) : ViewModelProvider.Factory
                 val repository = CategoryRepository(CategoryRemoteDataSource(ApiClient.create()))
                 CategoryViewModel(repository) as T
             }
+            modelClass.isAssignableFrom(CategoryDetailViewModel::class.java) -> {
+                val repository =
+                    CategoryDetailRepository(CategoryDetailRemoteDataSource(ApiClient.create()))
+                CategoryDetailViewModel(repository) as T
+            }
+
             else -> {
 
                 throw IllegalArgumentException("Failed to create ViewModel : ${modelClass.name}")
