@@ -10,7 +10,7 @@ import kotlin.math.roundToInt
 fun applyPriceFormat(view: TextView, price: Int) {
     val decimalFormat = DecimalFormat("#,###")
     view.text =
-        view.context.getString(R.string.unit_discount_currency, decimalFormat.format(price) + "원")
+        view.context.getString(R.string.unit_discount_currency, decimalFormat.format(price))
 }
 
 @BindingAdapter("priceAmount","discountRate")
