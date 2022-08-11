@@ -1,27 +1,21 @@
 package com.shoppi.app.ui.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.navigation.fragment.findNavController
-import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.tabs.TabLayout
+import androidx.recyclerview.widget.ConcatAdapter
 import com.google.android.material.tabs.TabLayoutMediator
-import com.shoppi.app.*
+import com.shoppi.app.R
 import com.shoppi.app.common.KEY_PRODUCT_ID
 import com.shoppi.app.databinding.FragmentHomeBinding
-import com.shoppi.app.ui.common.EventObserver
-import com.shoppi.app.ui.common.ViewModelFactory
+import com.shoppi.app.ui.common.*
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment() , ProductClickListener {
 
     private val viewModel: HomeViewModel by viewModels { ViewModelFactory(requireContext()) }
     private lateinit var binding: FragmentHomeBinding
@@ -44,9 +38,17 @@ class HomeFragment : Fragment() {
         setToolbar()
         setTopBanners()
         setNavigation()
+        setListAdapter()
 
 
     }
+
+    override fun onProductClick(productId: String) {
+        findNavController().navigate(R.id.action_home_to_product_detail, bundleOf(
+            KEY_PRODUCT_ID to "desk-1"
+        ))
+    }
+
 
     private fun setToolbar() {
         viewModel.title.observe(viewLifecycleOwner, { title ->
@@ -72,7 +74,6 @@ class HomeFragment : Fragment() {
         with(binding.viewpagerHomeBanner) {
             adapter = HomeBannerAdapter(viewModel).apply {
                 viewModel.topBanners.observe(viewLifecycleOwner, { banners ->
-                    Log.d("HomeFragment", "in observer")
                     submitList(banners)
                 })
             }
@@ -97,6 +98,17 @@ class HomeFragment : Fragment() {
 
         }
     }
+
+    private fun setListAdapter() {
+        val titleAdapter = SectionTitleAdapter()
+        val promotionAdapter = ProductPromotionAdapter(this)
+        binding.rvHome.adapter = ConcatAdapter(titleAdapter, promotionAdapter)
+        viewModel.promotions.observe(viewLifecycleOwner) { promotions ->
+            titleAdapter.submitList(listOf(promotions.title))
+            promotionAdapter.submitList(promotions.items)
+        }
+    }
+
 
 
 }
