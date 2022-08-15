@@ -5,11 +5,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.shoppi.app.AssetLoader
 import com.shoppi.app.ServiceLocator
-import com.shoppi.app.network.ApiClient
-import com.shoppi.app.repository.CategoryRemoteDataSource
-import com.shoppi.app.repository.CategoryRepository
-import com.shoppi.app.repository.HomeAssetDataSource
-import com.shoppi.app.repository.HomeRepository
+import com.shoppi.app.repository.cart.CartItemLocalDataSource
+import com.shoppi.app.repository.cart.CartRepository
+import com.shoppi.app.repository.category.CategoryRemoteDataSource
+import com.shoppi.app.repository.category.CategoryRepository
+import com.shoppi.app.repository.home.HomeAssetDataSource
+import com.shoppi.app.repository.home.HomeRepository
 import com.shoppi.app.repository.categorydetail.CategoryDetailRemoteDataSource
 import com.shoppi.app.repository.categorydetail.CategoryDetailRepository
 import com.shoppi.app.repository.productdetail.ProductDetailRemoteDataSource
@@ -42,18 +43,14 @@ class ViewModelFactory(private val context: Context) : ViewModelProvider.Factory
             }
             modelClass.isAssignableFrom(ProductDetailViewModel::class.java) -> {
                 val repository =
-                    ProductDetailRepository(
-                        ProductDetailRemoteDataSource(
-                            ServiceLocator.provideApiClient()))
-                ProductDetailViewModel(repository) as T
+                    ProductDetailRepository(ProductDetailRemoteDataSource(ServiceLocator.provideApiClient()))
+                ProductDetailViewModel(repository, ServiceLocator.provideCartRepository(context)) as T
             }
 
             modelClass.isAssignableFrom(CartViewModel::class.java) -> {
-                CartViewModel() as T
+                CartViewModel(ServiceLocator.provideCartRepository(context)) as T
             }
-
             else -> {
-
                 throw IllegalArgumentException("Failed to create ViewModel : ${modelClass.name}")
             }
         }
