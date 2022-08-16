@@ -21,7 +21,6 @@ class CartViewModel(private val cartRepository: CartRepository) : ViewModel() {
     // repository 에 데이터를 요청하는 메소드
     private fun loadCartItem() {
         viewModelScope.launch {
-
             _items.value = cartRepository.getCartItems()
 
         }

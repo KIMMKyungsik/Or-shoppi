@@ -10,7 +10,6 @@ import com.shoppi.app.model.CartItem
 @Dao
 interface CartItemDao {
 
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(cartItem: CartItem)
 

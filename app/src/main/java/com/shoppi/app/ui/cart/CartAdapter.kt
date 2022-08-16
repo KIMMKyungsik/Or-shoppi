@@ -96,10 +96,6 @@ class CartAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             binding.item = item
             binding.executePendingBindings()
 
-
         }
-
-
     }
-
 }
